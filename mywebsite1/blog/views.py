@@ -39,7 +39,7 @@ def list_add(request, music_no):
 def list_delete(request, music_no):
     user_no = request.user
     list_music_no = Music.objects.get(pk = music_no)
-    my_list = PlayList.objects.get(music_no = list_music_no)
+    my_list = PlayList.objects.filter(music_no = list_music_no)
     my_list.delete()
     return redirect("/blog/playlist")
 
