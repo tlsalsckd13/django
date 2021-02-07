@@ -78,7 +78,6 @@
 							</li>
 							{% if user.is_active %}
 							<li><a href="{% url 'playlist' %}">Playlist</a></li>
-							<li><a href="contact.html">Contact</a></li>
 							<li class="btn-cta"><a href="{% url 'login' %}"><span>Logout</span></a></li>
 							{% else %}
 							<li class="btn-cta"><a href="{% url 'login' %}"><span>Login</span></a></li>
@@ -94,18 +93,22 @@
     <h1> MUSIC LIST </h1>
 
     <table class="table table-hover"  >
-    <tr><th>노래 제목</th><th>가수</th><th colspan="2">작곡</th><th>담기</th>
+    <tr><th>노래 제목</th><th>가수</th><th colspan="2">작곡</th>{% if user.is_active %}<th>담기</th>{% else %}<th></th>{% endif %}
         {% if music_list %}
 			{% for list in music_list %}
 				<tr><td>{{ list.music_no }}. {{ list.music_name }}</td>
 					<td>{{ list.music_artist }}</td>
 					<td>{{ list.music_composer }}</td>
 					<td><audio controls><source src="{{list.music_file.url}}" ></audio></td>
+					{% if user.is_active %}
 					<td>
 						<form action="{% url 'list_add' list.music_no %}">
 							<span><input type="submit" value="+ 담기"/></span>
 						</form>
 					</td>
+					{% else %}
+					<td></td>
+					{% endif %}
 					<tr><td colspan="5"><details>
 						<summary>{{list.music_name}} 가사</summary>
 						<p>{{list.music_lyrics}}</p>
